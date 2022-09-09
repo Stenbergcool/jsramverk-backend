@@ -1,9 +1,8 @@
-
 const mongo = require("mongodb").MongoClient;
 var ObjectID = require('mongodb').ObjectID;
-require('dotenv').config()
-const collectionName = "artiklar"
-const dbName = "artikel"
+require('dotenv').config();
+const collectionName = "artiklar";
+const dbName = "artikel";
 
 const database = {
     getDb: async function getDb() {
@@ -31,25 +30,25 @@ const database = {
     },
 
     insertOne: async function insertOne(object) {
-        const client = await this.getDb()
-        const result = await client.collection.insertOne(object)
+        const client = await this.getDb();
+        const result = await client.collection.insertOne(object);
         client.client.close();
         return result
     },
 
     findAll: async function findAll() {
-        const client = await this.getDb()
+        const client = await this.getDb();
         const result = await client.collection.find().toArray();
         client.client.close();
         return result
     },
 
     updateOne: async function updateOne(update) {
-        const client = await this.getDb()
+        const client = await this.getDb();
         const result = await client.collection.updateOne( {_id: ObjectID(update[0])}, {$set: {Text: update[1]}});
         client.client.close();
         return result
     }
-}
+};
 
 module.exports = database;

@@ -4,10 +4,10 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const port = process.env.PORT || 8080;
-const dbHandler = require("./models/dbmong")
+const dbHandler = require("./models/dbmong");
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 // don't show the log when it is test
@@ -37,14 +37,14 @@ app.get("/artiklar", async (req, res) => {
 });
 
 app.post("/artiklar", async (req, res) => {
-    const result = await dbHandler.insertOne(req.body)
+    const result = await dbHandler.insertOne(req.body);
     res.json(result);
 });
 
 app.put("/artiklar", async (req, res) => {
-    const result = await dbHandler.updateOne(req.body)
-    res.json(result)
-})
+    const result = await dbHandler.updateOne(req.body);
+    res.json(result);
+});
 
 // Start up server
 app.listen(port, () => console.log(`Example API listening on port ${port}!`));
