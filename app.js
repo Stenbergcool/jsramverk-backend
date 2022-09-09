@@ -3,7 +3,7 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const port = process.env.PORT || 1337;
+const port = process.env.PORT || 8080;
 const dbHandler = require("./models/dbmong")
 
 app.use(bodyParser.json());
