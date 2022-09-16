@@ -13,9 +13,8 @@ chai.use(chaiHttp);
 
 
 describe('Database', () => {
-  it('findAll result is not empty and is an array',async function(){
+  it('findAll result is an array',async function(){
     const result = await database.findAll();
-    assert.isNotEmpty(result);
     assert.isArray(result, 'It is an array!');
   });
 
