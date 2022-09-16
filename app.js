@@ -31,20 +31,33 @@ app.get("/", (req, res) => {
 app.get("/artiklar", async (req, res) => {
     const artiklarna = await dbHandler.findAll();
 
-    res.json({
+    res.status(200).json({
         artiklarna
     });
 });
 
 app.post("/artiklar", async (req, res) => {
+    if(req.body.Rubrik && req.body.Text){
     const result = await dbHandler.insertOne(req.body);
-    res.json(result);
+    return res.status(201).json(result);
+    }else {
+    return res.status(400).json({
+        errors:{message: "Rubrik and Text needed"}
+    })}
 });
 
 app.put("/artiklar", async (req, res) => {
+    if(req.body._id && req.body.Text){
     const result = await dbHandler.updateOne(req.body);
-    res.json(result);
-});
+    return res.status(201).json(result);
+    } else {
+        return res.status(400).json({
+            errors:{message: "Id and Text needed"}
+        })}
+    }
+);
 
 // Start up server
 app.listen(port, () => console.log(`Example API listening on port ${port}!`));
+
+module.exports = app

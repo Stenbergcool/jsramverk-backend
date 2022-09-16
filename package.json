@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "nyc mocha --timeout 10000",
     "start": "node app.js",
-    "production": "NODE_ENV='production' node app.js"
+    "watch": "NODE_ENV='test' nodemon app.js",
+    "eslint": "eslint ."
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +19,12 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "eslint": "^8.23.0"
+    "chai": "^4.3.6",
+    "chai-http": "^4.3.0",
+    "eslint": "^8.23.1",
+    "eslint-plugin-react": "^7.31.8",
+    "javascript-style-guide": "^1.0.1",
+    "mocha": "^10.0.0",
+    "nyc": "^15.1.0"
   }
 }

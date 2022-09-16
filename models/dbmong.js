@@ -8,6 +8,12 @@ const database = {
     getDb: async function getDb() {
 
         let dsn = `mongodb+srv://${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}@cluster0.c4pzlrh.mongodb.net/?retryWrites=true&w=majority`;
+
+        if(process.env.NODE_ENV === 'test') {
+            dsn="mongodb://localhost:27017/test"
+        }
+
+
         const client = await mongo.connect(dsn, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
@@ -23,7 +29,7 @@ const database = {
         } catch(e) {
             return {
                 errors: {
-                    message: error.message,
+                    message: "sumting wong",
                 }
             };
         }
@@ -44,10 +50,14 @@ const database = {
     },
 
     updateOne: async function updateOne(update) {
+        try{
         const client = await this.getDb();
         const result = await client.collection.updateOne( {_id: ObjectID(update[0])}, {$set: {Text: update[1]}});
         client.client.close();
-        return result
+        return result}
+        catch(e){
+            return e
+        }
     }
 };
 
