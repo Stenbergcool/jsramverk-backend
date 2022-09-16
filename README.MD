@@ -3,7 +3,11 @@ Skapa en README.md fil i ditt repo som beskriver hur man installerar moduler och
 
 ### Start api using node app.js
 
-### Install modules like 'npm install module-for-good'
+### script
+npm watch for nodemen
+npm test for tests
+npm run eslint för validation
+npm start for production
 
 ### Routes
 #### /artiklar
