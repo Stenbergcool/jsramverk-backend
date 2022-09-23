@@ -1,14 +1,20 @@
 const express = require("express");
 const app = express();
+const httpServer = require("http").createServer(app);
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const artiklar = require('./routes/artiklar')
 const port = process.env.PORT || 8080;
 const dbHandler = require("./models/dbmong");
+
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+app.options('*', cors());
+
+app.disable('x-powered-by');
 
 // don't show the log when it is test
 if (process.env.NODE_ENV !== 'test') {
@@ -27,37 +33,25 @@ app.get("/", (req, res) => {
     res.json(data);
 });
 
+app.use("/artiklar", artiklar)
 
-app.get("/artiklar", async (req, res) => {
-    const artiklarna = await dbHandler.findAll();
-
-    res.status(200).json({
-        artiklarna
-    });
-});
-
-app.post("/artiklar", async (req, res) => {
-    if(req.body.Rubrik && req.body.Text){
-    const result = await dbHandler.insertOne(req.body);
-    return res.status(201).json(result);
-    }else {
-    return res.status(400).json({
-        errors:{message: "Rubrik and Text needed"}
-    })}
-});
-
-app.put("/artiklar", async (req, res) => {
-    if(req.body._id && req.body.Text){
-    const result = await dbHandler.updateOne(req.body);
-    return res.status(201).json(result);
-    } else {
-        return res.status(400).json({
-            errors:{message: "Id and Text needed"}
-        })}
+const io = require("socket.io")(httpServer, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"]
     }
-);
+});
+
+io.sockets.on('connection', function(socket) {
+    socket.on("create", (data) => {
+        socket.join(data[0]);
+        socket.to(data[0]).emit("doc", data[1]);
+    })
+});
 
 // Start up server
-app.listen(port, () => console.log(`Example API listening on port ${port}!`));
+const server = httpServer.listen(port, () => {
+    console.log('listening on port ' + port);
+});
 
-module.exports = app
+module.exports = server;
