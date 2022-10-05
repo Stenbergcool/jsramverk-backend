@@ -1,10 +1,14 @@
 const express = require('express');
 const router = express.Router();
+const usersModel = require("../models/users")
 
 
 const dbHandler = require("../models/dbmong");
 
-router.get("/", async (req, res) => {
+router.get("/",
+    (req, res, next) => usersModel.checkToken(req, res, next),
+    async (req, res) => {
+
     const artiklarna = await dbHandler.findAll();
 
     res.status(200).json({
@@ -13,7 +17,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    if(req.body.Rubrik && req.body.Text){
+    if(req.body.Heading && req.body.Text){
     const result = await dbHandler.insertOne(req.body);
     return res.status(201).json(result);
     }else {
@@ -23,6 +27,7 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/", async (req, res) => {
+    console.log(req.body)
     if(req.body._id && req.body.Text){
     const result = await dbHandler.updateOne(req.body);
     return res.status(201).json(result);

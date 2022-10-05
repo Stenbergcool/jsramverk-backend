@@ -52,7 +52,7 @@ const database = {
     updateOne: async function updateOne(update) {
         try{
         const client = await this.getDb();
-        const result = await client.collection.updateOne( {_id: ObjectID(update[0])}, {$set: {Text: update[1]}});
+        const result = await client.collection.updateOne( {_id: ObjectID(update._id)}, {$set: {Text: update.Text, Allowed_users: update.Allowed_users}});
         client.client.close();
         return result}
         catch(e){

@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const artiklar = require('./routes/artiklar')
+const auth = require('./routes/auth')
 const port = process.env.PORT || 8080;
 const dbHandler = require("./models/dbmong");
 
@@ -34,6 +35,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/artiklar", artiklar)
+app.use("/auth", auth);
 
 const io = require("socket.io")(httpServer, {
     cors: {
