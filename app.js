@@ -7,13 +7,19 @@ const cors = require('cors');
 const artiklar = require('./routes/artiklar')
 const auth = require('./routes/auth')
 const port = process.env.PORT || 8080;
-const dbHandler = require("./models/dbmong");
 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.options('*', cors());
+const visual = true;
+const { graphqlHTTP } = require('express-graphql');
+const {
+    GraphQLSchema
+  } = require("graphql");
+
+const RootQueryType = require("./graphql/root.js");
 
 app.disable('x-powered-by');
 
@@ -22,6 +28,14 @@ if (process.env.NODE_ENV !== 'test') {
     // use morgan to log at command line
     app.use(morgan('combined')); // 'combined' outputs the Apache style LOGs
 }
+
+const schema = new GraphQLSchema({
+    query: RootQueryType
+});
+app.use('/graphql', graphqlHTTP({
+    schema: schema,
+    graphiql: visual,
+}));
 
 // Add a route
 app.get("/", (req, res) => {

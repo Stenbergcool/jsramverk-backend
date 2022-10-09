@@ -1,11 +1,10 @@
 const mongo = require("mongodb").MongoClient;
 var ObjectID = require('mongodb').ObjectID;
 require('dotenv').config();
-const collectionName = "artiklar";
 const dbName = "artikel";
 
 const database = {
-    getDb: async function getDb() {
+    getDb: async function getDb(collectionName = "artiklar") {
 
         let dsn = `mongodb+srv://${process.env.ATLAS_USERNAME}:${process.env.ATLAS_PASSWORD}@cluster0.c4pzlrh.mongodb.net/?retryWrites=true&w=majority`;
 
@@ -38,12 +37,13 @@ const database = {
     insertOne: async function insertOne(object) {
         const client = await this.getDb();
         const result = await client.collection.insertOne(object);
+        console.log(result)
         client.client.close();
         return result
     },
 
-    findAll: async function findAll() {
-        const client = await this.getDb();
+    findAll: async function findAll(collectionName = "artiklar") {
+        const client = await this.getDb(collectionName);
         const result = await client.collection.find().toArray();
         client.client.close();
         return result

@@ -31,8 +31,7 @@ const users = {
                 });
             }
 
-            let db = await database.getDb();
-
+            let db = await database.getDb("users");
             try {
                 const doc = {
                     email: email,
@@ -47,6 +46,7 @@ const users = {
                     }
                 });
             } catch (error) {
+                console.log(error)
                 return res.status(500).json({
                     errors: {
                         status: 500,
@@ -72,7 +72,7 @@ const users = {
             });
         }
 
-        let db = await database.getDb();
+        let db = await database.getDb("users");
 
         try {
             const query = { email: email };
