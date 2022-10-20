@@ -6,7 +6,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const artiklar = require('./routes/artiklar')
 const auth = require('./routes/auth')
-const port = process.env.PORT || 8080;
+const email = require('./routes/email')
+const port = process.env.PORT || 1337;
 
 
 app.use(bodyParser.json());
@@ -47,9 +48,9 @@ app.get("/", (req, res) => {
 
     res.json(data);
 });
-
 app.use("/artiklar", artiklar)
 app.use("/auth", auth);
+app.use("/email", email);
 
 const io = require("socket.io")(httpServer, {
     cors: {

@@ -12,6 +12,7 @@ const docType = new GraphQLObjectType({
         Heading: { type: new GraphQLNonNull(GraphQLString) },
         Text: { type: new GraphQLNonNull(GraphQLString) },
         Author: { type: new GraphQLNonNull(GraphQLString) },
+        _id: { type: new GraphQLNonNull(GraphQLString) },
         Allowed_users: { type: new GraphQLList(GraphQLString) }
     })
 })
