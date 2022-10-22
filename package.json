@@ -7,7 +7,7 @@
     "test": "nyc mocha --timeout 10000",
     "start": "node app.js",
     "watch": "NODE_ENV='test' nodemon app.js",
-    "eslint": "eslint ."
+    "lint": "eslint ./"
   },
   "author": "",
   "license": "ISC",

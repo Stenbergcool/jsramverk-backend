@@ -1,17 +1,17 @@
 
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 
 const saltRounds = 10;
 
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
-const database = require('./dbmong')
+const database = require("./dbmong");
 
 const users = {
 
     register: async function register(res, body) {
         const email = body.email;
-        const password = body.password
+        const password = body.password;
         if (!email || !password) {
             return res.status(400).json({
                 errors: {
@@ -46,13 +46,12 @@ const users = {
                     }
                 });
             } catch (error) {
-                console.log(error)
                 return res.status(500).json({
                     errors: {
                         status: 500,
                         message: "Could not created new user",
                     }
-                })
+                });
             } finally {
                 await db.client.close();
             }
@@ -93,7 +92,7 @@ const users = {
                     status: 500,
                     message: "Could not find user",
                 }
-            })
+            });
         } finally {
             await db.client.close();
         }
@@ -115,7 +114,7 @@ const users = {
                 const payload = { email: user.email };
                 const secret = process.env.JWT_SECRET;
 
-                const token = jwt.sign(payload, secret, { expiresIn: '1h' });
+                const token = jwt.sign(payload, secret, { expiresIn: "1h" });
 
                 return res.status(201).json({
                     data: {
@@ -136,9 +135,9 @@ const users = {
     },
 
     checkToken: function checkToken(req, res, next) {
-        const token = req.headers['x-access-token'];
+        const token = req.headers["x-access-token"];
 
-        jwt.verify(token, process.env.JWT_SECRET, function (err, decoded) {
+        jwt.verify(token, process.env.JWT_SECRET, function (err) {
             if (err) {
                 return res.status(401).json({
                     errors: {

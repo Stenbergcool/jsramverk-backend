@@ -3,11 +3,11 @@ const {
     GraphQLString,
     GraphQLNonNull,
     GraphQLList
-} = require('graphql');
+} = require("graphql");
 
 const docType = new GraphQLObjectType({
-    name: 'Documents',
-    description: 'This represents a document',
+    name: "Documents",
+    description: "This represents a document",
     fields: () => ({
         Heading: { type: new GraphQLNonNull(GraphQLString) },
         Text: { type: new GraphQLNonNull(GraphQLString) },
@@ -15,6 +15,6 @@ const docType = new GraphQLObjectType({
         _id: { type: new GraphQLNonNull(GraphQLString) },
         Allowed_users: { type: new GraphQLList(GraphQLString) }
     })
-})
+});
 
 module.exports = docType;
