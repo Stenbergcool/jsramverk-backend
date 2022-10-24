@@ -11,24 +11,6 @@ chai.use(chaiHttp);
 
 describe("Testing email.js/Mailgunner", () => {
 
-
-    it("Tests email POST", function() {
-      const data = {
-        email: "stenberg.alexander@hotmail.com",
-        sender: "stenberg.alexander@hotmail.com",
-        documentName: "Tjolahopp"
-      };
-      chai.request(server)
-          .post("/email")
-          .send(data)
-          .end((err, response) => {
-            response.should.have.status(200);
-            response.body.should.be.a("object");
-            response.body.should.have.property("id");
-            response.body.should.have.property("message");
-          });
-    });
-
     it("Tests email POST without emailRecipiant expect error 400", function() {
       const data = {
         sender: "test@test.com",
